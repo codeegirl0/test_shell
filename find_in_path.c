@@ -3,103 +3,97 @@
 int check_file(char *full_path);
 
 /**
- * find_program - find a program in path
- * @data: a pointer to the program's data
- * Return: 0 if success, errcode otherwise
+ * search_program - search for program path
+ * @data: program data struct
+ * Return: 0 if success, or an error code
  */
-int find_program(data_of_program *data)
+int search_program(vars_of_project *data)
 {
-	int i = 0, ret_code = 0;
-	char **directories;
+	int m = 0, code_toret = 0;
+	char **directs;
 
-	if (!data->command_name)
+	if (!data->cmd_name)
 		return (2);
 
-	/**if is a full_path or an executable in the same path */
-	if (data->command_name[0] == '/' || data->command_name[0] == '.')
-		return (check_file(data->command_name));
+	if (data->cmd_name[0] == '/' || data->cmd_name[0] == '.')
+		return (check_file(data->cmd_name));
 
-	free(data->tokens[0]);
-	data->tokens[0] = str_concat(str_duplicate("/"), data->command_name);
-	if (!data->tokens[0])
+	free(data->toks[0]);
+	data->toks[0] = str_concat(str_duplicate("/"), data->cmd_name);
+	if (!data->toks[0])
 		return (2);
 
-	directories = tokenize_path(data);/* search in the PATH */
+	directs = path_tokenizing(data);
 
-	if (!directories || !directories[0])
+	if (!directs || !directs[0])
 	{
 		errno = 127;
 		return (127);
 	}
-	for (i = 0; directories[i]; i++)
-	{/* appends the function_name to path */
-		directories[i] = str_concat(directories[i], data->tokens[0]);
-		ret_code = check_file(directories[i]);
-		if (ret_code == 0 || ret_code == 126)
-		{/* the file was found, is not a directory and has execute permisions*/
+	for (m = 0; directs[m]; m++)
+	{
+		directs[m] = str_concat(directs[m], data->toks[0]);
+		code_toret = check_file(directs[m]);
+		if (code_toret == 0 || code_toret == 126)
+		{
 			errno = 0;
-			free(data->tokens[0]);
-			data->tokens[0] = str_duplicate(directories[i]);
-			free_array_of_pointers(directories);
-			return (ret_code);
+			free(data->toks[0]);
+			data->toks[0] = str_duplicate(directs[m]);
+			free_array_of_pointers(directs);
+			return (code_toret);
 		}
 	}
-	free(data->tokens[0]);
-	data->tokens[0] = NULL;
-	free_array_of_pointers(directories);
-	return (ret_code);
+	free(data->toks[0]);
+	data->toks[0] = NULL;
+	free_array_of_pointers(directs);
+	return (code_toret);
 }
 
 /**
- * tokenize_path - tokenize the path in directories
- * @data: a pointer to the program's data
- * Return: array of path directories
+ * path_tokenizing - to tokenize path in directs
+ * @data: program data struct
+ * Return: path directories array
  */
-char **tokenize_path(data_of_program *data)
+char **path_tokenizing(vars_of_project *data)
 {
-	int i = 0;
-	int counter_directories = 2;
-	char **tokens = NULL;
+	int m = 0;
+	int direct_counter = 2;
+	char **toks = NULL;
 	char *PATH;
 
-	/* get the PATH value*/
 	PATH = env_get_key("PATH", data);
 	if ((PATH == NULL) || PATH[0] == '\0')
-	{/*path not found*/
+	{
 		return (NULL);
 	}
 
 	PATH = str_duplicate(PATH);
 
-	/* find the number of directories in the PATH */
-	for (i = 0; PATH[i]; i++)
+	for (m = 0; PATH[m]; m++)
 	{
-		if (PATH[i] == ':')
-			counter_directories++;
+		if (PATH[m] == ':')
+			direct_counter++;
 	}
 
-	/* reserve space for the array of pointers */
-	tokens = malloc(sizeof(char *) * counter_directories);
+	toks = malloc(sizeof(char *) * direct_counter);
 
-	/*tokenize and duplicate each token of path*/
-	i = 0;
-	tokens[i] = str_duplicate(_strtok(PATH, ":"));
-	while (tokens[i++])
+	m = 0;
+	toks[m] = str_duplicate(_stringtok(PATH, ":"));
+	while (toks[m++])
 	{
-		tokens[i] = str_duplicate(_strtok(NULL, ":"));
+		toks[m] = str_duplicate(_stringtok(NULL, ":"));
 	}
 
 	free(PATH);
 	PATH = NULL;
-	return (tokens);
+	return (toks);
 
 }
 
 /**
- * check_file - checks if exists a file, if it is not a dairectory and
- * if it has excecution permisions for permisions.
- * @full_path: pointer to the full file name
- * Return: 0 on success, or error code if it exists.
+ * check_file - file exesting and permissions
+ * @full_path: full file name
+ * Return: 0 on success, or error.
  */
 int check_file(char *full_path)
 {
@@ -114,7 +108,6 @@ int check_file(char *full_path)
 		}
 		return (0);
 	}
-	/*if not exist the file*/
 	errno = 127;
 	return (127);
 }

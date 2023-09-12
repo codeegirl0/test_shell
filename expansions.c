@@ -1,112 +1,110 @@
 #include "shell.h"
 
 /**
- * expand_variables - expand variables
- * @data: a pointer to a struct of the program's data
- *
- * Return: nothing, but sets errno.
+ * vars_expander - to expand vars
+ * @data: program data struct
+ * Return: set the errno.
  */
-void expand_variables(data_of_program *data)
+void vars_expander(vars_of_project *data)
 {
-	int i, j;
-	char line[BUFFER_SIZE] = {0}, expansion[BUFFER_SIZE] = {'\0'}, *temp;
+	int m, n;
+	char theline[BUFFER_SIZE] = {0}, toexp[BUFFER_SIZE] = {'\0'}, *tempo;
 
-	if (data->input_line == NULL)
+	if (data->line_inpt == NULL)
 		return;
-	buffer_add(line, data->input_line);
-	for (i = 0; line[i]; i++)
-		if (line[i] == '#')
-			line[i--] = '\0';
-		else if (line[i] == '$' && line[i + 1] == '?')
+	add_tobuff(theline, data->line_inpt);
+	for (m = 0; theline[m]; m++)
+		if (theline[m] == '#')
+			theline[m--] = '\0';
+		else if (theline[m] == '$' && theline[m + 1] == '?')
 		{
-			line[i] = '\0';
-			long_to_string(errno, expansion, 10);
-			buffer_add(line, expansion);
-			buffer_add(line, data->input_line + i + 2);
+			theline[m] = '\0';
+			long_to_string(errno, toexp, 10);
+			add_tobuff(theline, toexp);
+			add_tobuff(theline, data->line_inpt + m + 2);
 		}
-		else if (line[i] == '$' && line[i + 1] == '$')
+		else if (theline[m] == '$' && theline[m + 1] == '$')
 		{
-			line[i] = '\0';
-			long_to_string(getpid(), expansion, 10);
-			buffer_add(line, expansion);
-			buffer_add(line, data->input_line + i + 2);
+			theline[m] = '\0';
+			long_to_string(getpid(), toexp, 10);
+			add_tobuff(theline, toexp);
+			add_tobuff(theline, data->line_inpt + m + 2);
 		}
-		else if (line[i] == '$' && (line[i + 1] == ' ' || line[i + 1] == '\0'))
+		else if (theline[m] == '$' && (theline[m + 1] == ' ' || theline[m + 1] == '\0'))
 			continue;
-		else if (line[i] == '$')
+		else if (theline[m] == '$')
 		{
-			for (j = 1; line[i + j] && line[i + j] != ' '; j++)
-				expansion[j - 1] = line[i + j];
-			temp = env_get_key(expansion, data);
-			line[i] = '\0', expansion[0] = '\0';
-			buffer_add(expansion, line + i + j);
-			temp ? buffer_add(line, temp) : 1;
-			buffer_add(line, expansion);
+			for (n = 1; theline[m + n] && theline[m + n] != ' '; n++)
+				toexp[n - 1] = theline[m + n];
+			tempo = env_get_key(toexp, data);
+			theline[m] = '\0', toexp[0] = '\0';
+			add_tobuff(toexp, theline + m + n);
+			tempo ? add_tobuff(theline, tempo) : 1;
+			add_tobuff(theline, toexp);
 		}
-	if (!str_compare(data->input_line, line, 0))
+	if (!str_compare(data->line_inpt, theline, 0))
 	{
-		free(data->input_line);
-		data->input_line = str_duplicate(line);
+		free(data->line_inpt);
+		data->line_inpt = str_duplicate(theline);
 	}
 }
 
 /**
- * expand_alias - expans aliases
- * @data: a pointer to a struct of the program's data
- *
- * Return: nothing, but sets errno.
+ * alias_expander - to expand the aliases
+ * @data: program data struct
+ * Return: set the errno.
  */
-void expand_alias(data_of_program *data)
+void alias_expander(vars_of_project *data)
 {
-	int i, j, was_expanded = 0;
-	char line[BUFFER_SIZE] = {0}, expansion[BUFFER_SIZE] = {'\0'}, *temp;
+	int m, n, the_expand = 0;
+	char theline[BUFFER_SIZE] = {0}, toexp[BUFFER_SIZE] = {'\0'}, *tempo;
 
-	if (data->input_line == NULL)
+	if (data->line_inpt == NULL)
 		return;
 
-	buffer_add(line, data->input_line);
+	add_tobuff(theline, data->line_inpt);
 
-	for (i = 0; line[i]; i++)
+	for (m = 0; theline[m]; m++)
 	{
-		for (j = 0; line[i + j] && line[i + j] != ' '; j++)
-			expansion[j] = line[i + j];
-		expansion[j] = '\0';
+		for (n = 0; theline[m + n] && theline[m + n] != ' '; n++)
+			toexp[n] = theline[m + n];
+		toexp[n] = '\0';
 
-		temp = get_alias(data, expansion);
-		if (temp)
+		tempo = get_alias(data, toexp);
+		if (tempo)
 		{
-			expansion[0] = '\0';
-			buffer_add(expansion, line + i + j);
-			line[i] = '\0';
-			buffer_add(line, temp);
-			line[str_length(line)] = '\0';
-			buffer_add(line, expansion);
-			was_expanded = 1;
+			toexp[0] = '\0';
+			add_tobuff(toexp, theline + m + n);
+			theline[m] = '\0';
+			add_tobuff(theline, tempo);
+			theline[str_length(theline)] = '\0';
+			add_tobuff(theline, toexp);
+			the_expand = 1;
 		}
 		break;
 	}
-	if (was_expanded)
+	if (the_expand)
 	{
-		free(data->input_line);
-		data->input_line = str_duplicate(line);
+		free(data->line_inpt);
+		data->line_inpt = str_duplicate(theline);
 	}
 }
 
 /**
- * buffer_add - append string at end of the buffer
- * @buffer: buffer to be filled
- * @str_to_add: string to be copied in the buffer
- * Return: nothing, but sets errno.
+ * add_tobuff - add string to the buffer end
+ * @buffer: buffer to fill
+ * @str_to_add: to copy string
+ * Return: set the errno.
  */
-int buffer_add(char *buffer, char *str_to_add)
+int add_tobuff(char *buffer, char *str_to_add)
 {
-	int length, i;
+	int leng, m;
 
-	length = str_length(buffer);
-	for (i = 0; str_to_add[i]; i++)
+	leng = str_leng(buffer);
+	for (m = 0; str_to_add[m]; m++)
 	{
-		buffer[length + i] = str_to_add[i];
+		buffer[leng + m] = str_to_add[m];
 	}
-	buffer[length + i] = '\0';
-	return (length + i);
+	buffer[leng + m] = '\0';
+	return (leng + m);
 }

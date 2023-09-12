@@ -1,81 +1,81 @@
 #include "shell.h"
 
 /**
- * builtin_exit - exit of the program with the status
- * @data: struct for the program's data
- * Return: zero if sucess, or other number if its declared in the arguments
+ * builtin_exit - leave with status
+ * @data: program  data struct
+ * Return: 0 if sucess, or other number
  */
-int builtin_exit(data_of_program *data)
+int builtin_exit(vars_of_project *data)
 {
-	int i;
+	int m;
 
-	if (data->tokens[1] != NULL)
-	{/*if exists arg for exit, check if is a number*/
-		for (i = 0; data->tokens[1][i]; i++)
-			if ((data->tokens[1][i] < '0' || data->tokens[1][i] > '9')
-				&& data->tokens[1][i] != '+')
-			{/*if is not a number*/
+	if (data->toks[1] != NULL)
+	{
+		for (m = 0; data->toks[1][m]; m++)
+			if ((data->toks[1][m] < '0' || data->toks[1][m] > '9')
+					&& data->toks[1][m] != '+')
+			{
 				errno = 2;
 				return (2);
 			}
-		errno = _atoi(data->tokens[1]);
+		errno = _atoi(data->toks[1]);
 	}
 	free_all_data(data);
 	exit(errno);
 }
 
 /**
- * builtin_cd - change the current directory
- * @data: struct for the program's data
- * Return: zero if sucess, or other number if its declared in the arguments
+ * builtin_cd - to change current directory
+ * @data: program data struct
+ * Return: 0 if sucess, or other number
  */
-int builtin_cd(data_of_program *data)
+int builtin_cd(vars_of_project *data)
 {
-	char *dir_home = env_get_key("HOME", data), *dir_old = NULL;
-	char old_dir[128] = {0};
-	int error_code = 0;
+	char *the_homedir = env_get_key("HOME", data), *the_dirold = NULL;
+	char the_olddir[128] = {0};
+	int code_err = 0;
 
-	if (data->tokens[1])
+	if (data->toks[1])
 	{
-		if (str_compare(data->tokens[1], "-", 0))
+		if (str_compare(data->toks[1], "-", 0))
 		{
-			dir_old = env_get_key("OLDPWD", data);
-			if (dir_old)
-				error_code = set_work_directory(data, dir_old);
+			the_dirold = env_get_key("OLDPWD", data);
+			if (the_dirold)
+				code_err = set_work_directory(data, the_dirold);
 			_print(env_get_key("PWD", data));
 			_print("\n");
 
-			return (error_code);
+			return (code_err);
 		}
 		else
 		{
-			return (set_work_directory(data, data->tokens[1]));
+			return (set_work_directory(data, data->toks[1]));
 		}
 	}
 	else
 	{
-		if (!dir_home)
-			dir_home = getcwd(old_dir, 128);
+		if (!the_homedir)
+			the_homedir = getcwd(the_olddir, 128);
 
-		return (set_work_directory(data, dir_home));
+		return (set_work_directory(data, the_homedir));
 	}
 	return (0);
 }
 
 /**
- * set_work_directory - set the work directory
- * @data: struct for the program's data
- * @new_dir: path to be set as work directory
- * Return: zero if sucess, or other number if its declared in the arguments
+ * set_work_directory - show working directory
+ * @data: program data struct
+ * @new_dir: path as working directory
+ * Return: 0 if sucess, or other number
  */
-int set_work_directory(data_of_program *data, char *new_dir)
+int set_work_directory(vars_of_project *data, char *new_dir)
 {
-	char old_dir[128] = {0};
+	char the_olddir[128] = {0};
 	int err_code = 0;
 
-	getcwd(old_dir, 128);
+	getcwd(the_olddir, 128);
 
-	if (!str_compare(old_dir, new_dir, 0))
+	if (!str_compare(the_olddir, new_dir, 0))
 	{
 		err_code = chdir(new_dir);
 		if (err_code == -1)
@@ -85,75 +85,71 @@ int set_work_directory(data_of_program *data, char *new_dir)
 		}
 		env_set_key("PWD", new_dir, data);
 	}
-	env_set_key("OLDPWD", old_dir, data);
+	env_set_key("OLDPWD", the_olddir, data);
 	return (0);
 }
 
 /**
- * builtin_help - shows the environment where the shell runs
- * @data: struct for the program's data
- * Return: zero if sucess, or other number if its declared in the arguments
+ * builtin_help - to show running environnement
+ * @data: program data struct
+ * Return: 0 if sucess, or other number
  */
-int builtin_help(data_of_program *data)
+int builtin_help(vars_of_project *data)
 {
-	int i, length = 0;
-	char *mensajes[6] = {NULL};
+	int m, leng = 0;
+	char *messj[6] = {NULL};
 
-	mensajes[0] = HELP_MSG;
+	messj[0] = HELP_MSG;
 
-	/* validate args */
-	if (data->tokens[1] == NULL)
+	if (data->toks[1] == NULL)
 	{
-		_print(mensajes[0] + 6);
+		_print(messj[0] + 6);
 		return (1);
 	}
-	if (data->tokens[2] != NULL)
+	if (data->toks[2] != NULL)
 	{
 		errno = E2BIG;
-		perror(data->command_name);
+		perror(data->cmd_name);
 		return (5);
 	}
-	mensajes[1] = HELP_EXIT_MSG;
-	mensajes[2] = HELP_ENV_MSG;
-	mensajes[3] = HELP_SETENV_MSG;
-	mensajes[4] = HELP_UNSETENV_MSG;
-	mensajes[5] = HELP_CD_MSG;
+	messj[1] = HELP_EXIT_MSG;
+	messj[2] = HELP_ENV_MSG;
+	messj[3] = HELP_SETENV_MSG;
+	messj[4] = HELP_UNSETENV_MSG;
+	messj[5] = HELP_CD_MSG;
 
-	for (i = 0; mensajes[i]; i++)
+	for (m = 0; messj[m]; m++)
 	{
-		/*print the length of string */
-		length = str_length(data->tokens[1]);
-		if (str_compare(data->tokens[1], mensajes[i], length))
+		leng = str_length(data->toks[1]);
+		if (str_compare(data->toks[1], messj[m], leng))
 		{
-			_print(mensajes[i] + length + 1);
+			_print(messj[m] + leng + 1);
 			return (1);
 		}
 	}
-	/*if there is no match, print error and return -1 */
 	errno = EINVAL;
-	perror(data->command_name);
+	perror(data->cmd_name);
 	return (0);
 }
 
 /**
- * builtin_alias - add, remove or show aliases
- * @data: struct for the program's data
- * Return: zero if sucess, or other number if its declared in the arguments
+ * builtin_alias - handle aliases
+ * @data: program data struct
+ * Return: 0 if sucess, or other number
  */
-int builtin_alias(data_of_program *data)
+int builtin_alias(vars_of_project *data)
 {
-	int i = 0;
+	int m = 0;
 
-	/* if there are no arguments, print all environment */
-	if (data->tokens[1] == NULL)
+	if (data->toks[1] == NULL)
 		return (print_alias(data, NULL));
 
-	while (data->tokens[++i])
-	{/* if there are arguments, set or print each env variable*/
-		if (count_characters(data->tokens[i], "="))
-			set_alias(data->tokens[i], data);
+	while (data->toks[++m])
+	{
+		if (count_characters(data->toks[m], "="))
+			set_alias(data->toks[m], data);
 		else
-			print_alias(data, data->tokens[i]);
+			print_alias(data, data->toks[m]);
 	}
 
 	return (0);

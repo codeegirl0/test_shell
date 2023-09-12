@@ -1,95 +1,78 @@
 #include "shell.h"
 
 /**
-* _getline - read one line from the prompt.
-* @data: struct for the program's data
-*
-* Return: reading counting bytes.
+* _readline - reading from the prompt.
+* @data: struct of data of the program
+* Return: the counting bytes.
 */
-int _getline(data_of_program *data)
+int _readline(vars_of_project *data)
 {
-	char buff[BUFFER_SIZE] = {'\0'};
-	static char *array_commands[10] = {NULL};
-	static char array_operators[10] = {'\0'};
-	ssize_t bytes_read, i = 0;
-
-	/* check if doesnot exist more commands in the array */
-	/* and checks the logical operators */
-	if (!array_commands[0] || (array_operators[0] == '&' && errno != 0) ||
-		(array_operators[0] == '|' && errno == 0))
+	char buffsize[BUFFER_SIZE] = {'\0'};
+	static char *arr_cmds[10] = {NULL};
+	static char arr_opr[10] = {'\0'};
+	ssize_t byte_reader, i = 0;
+	if (!arr_cmds[0] || (arr_opr[0] == '&' && errno != 0) ||
+		(arr_opr[0] == '|' && errno == 0))
 	{
-		/*free the memory allocated in the array if it exists */
-		for (i = 0; array_commands[i]; i++)
+		for (i = 0; arr_cmds[i]; i++)
 		{
-			free(array_commands[i]);
-			array_commands[i] = NULL;
+			free(arr_cmds[i]);
+			arr_cmds[i] = NULL;
 		}
-
-		/* read from the file descriptor int to buff */
-		bytes_read = read(data->file_descriptor, &buff, BUFFER_SIZE - 1);
-		if (bytes_read == 0)
+		byte_reader = read(data->descr_file, &buffsize, BUFFER_SIZE - 1);
+		if (byte_reader == 0)
 			return (-1);
-
-		/* split lines for \n or ; */
 		i = 0;
 		do {
-			array_commands[i] = str_duplicate(_strtok(i ? NULL : buff, "\n;"));
-			/*checks and split for && and || operators*/
-			i = check_logic_ops(array_commands, i, array_operators);
-		} while (array_commands[i++]);
+			arr_cmds[i] = str_duplicate(_stringtok(i ? NULL : buffsize, "\n;"));
+			i = logic_ops_spliter(arr_cmds, i, arr_opr);
+		} while (arr_cmds[i++]);
 	}
-
-	/*obtains the next command (command 0) and remove it for the array*/
-	data->input_line = array_commands[0];
-	for (i = 0; array_commands[i]; i++)
+	data->line_inpt = arr_cmds[0];
+	for (i = 0; arr_cmds[i]; i++)
 	{
-		array_commands[i] = array_commands[i + 1];
-		array_operators[i] = array_operators[i + 1];
+		arr_cmds[i] = arr_cmds[i + 1];
+		arr_opr[i] = arr_opr[i + 1];
 	}
 
-	return (str_length(data->input_line));
+	return (str_length(data->line_inpt));
 }
 
 
 /**
-* check_logic_ops - checks and split for && and || operators
-* @array_commands: array of the commands.
-* @i: index in the array_commands to be checked
-* @array_operators: array of the logical operators for each previous command
-*
-* Return: index of the last command in the array_commands.
+* logic_ops_spliter - to check and split
+* @arr_cmds: command array.
+* @i: number in array to check
+* @arr_opr: logical operators array of previous command
+* Return:last command index.
 */
-int check_logic_ops(char *array_commands[], int i, char array_operators[])
+int logic_ops_spliter(char *arr_cmds[], int i, char arr_opr[])
 {
-	char *temp = NULL;
-	int j;
-
-	/* checks for the & char in the command line*/
-	for (j = 0; array_commands[i] != NULL  && array_commands[i][j]; j++)
+	char *mytemp = NULL;
+	int n;
+	for (n = 0; arr_cmds[i] != NULL  && arr_cmds[i][n]; n++)
 	{
-		if (array_commands[i][j] == '&' && array_commands[i][j + 1] == '&')
+		if (arr_cmds[i][n] == '&' && arr_cmds[i][n + 1] == '&')
 		{
-			/* split the line when chars && was found */
-			temp = array_commands[i];
-			array_commands[i][j] = '\0';
-			array_commands[i] = str_duplicate(array_commands[i]);
-			array_commands[i + 1] = str_duplicate(temp + j + 2);
+			mytemp = arr_cmds[i];
+			arr_cmds[i][n] = '\0';
+			arr_cmds[i] = str_duplicate(arr_cmds[i]);
+			arr_cmds[i + 1] = str_duplicate(mytemp + n + 2);
 			i++;
-			array_operators[i] = '&';
-			free(temp);
-			j = 0;
+			arr_opr[i] = '&';
+			free(mytemp);
+			n = 0;
 		}
-		if (array_commands[i][j] == '|' && array_commands[i][j + 1] == '|')
+		if (arr_cmds[i][n] == '|' && arr_cmds[i][n + 1] == '|')
 		{
-			/* split the line when chars || was found */
-			temp = array_commands[i];
-			array_commands[i][j] = '\0';
-			array_commands[i] = str_duplicate(array_commands[i]);
-			array_commands[i + 1] = str_duplicate(temp + j + 2);
+			mytemp = arr_cmds[i];
+			arr_cmds[i][n] = '\0';
+			arr_cmds[i] = str_duplicate(arr_cmds[i]);
+			arr_cmds[i + 1] = str_duplicate(mytemp + n + 2);
 			i++;
-			array_operators[i] = '|';
-			free(temp);
-			j = 0;
+			arr_opr[i] = '|';
+			free(mytemp);
+			n = 0;
 		}
 	}
 	return (i);

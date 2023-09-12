@@ -1,42 +1,42 @@
 #include "shell.h"
 /**
- * _strtok - separates strings with delimiters
- * @line: It´s pointer to array we receive in getline.
- * @delim: It´s characters we mark off string in parts.
- * Return: A pointer to the created token
+ * _stringtok - separates strings with delimiters
+ * @myline: array from getline
+ * @mydelim: character to mark splite
+ * Return: the token that created
 */
-char *_strtok(char *line, char *delim)
+char *_stringtok(char *myline, char *mydelim)
 {
-	int j;
-	static char *str;
-	char *copystr;
+	int n;
+	static char *mystr;
+	char *mystrcp;
 
-	if (line != NULL)
-		str = line;
-	for (; *str != '\0'; str++)
+	if (myline != NULL)
+		mystr = myline;
+	for (; *mystr != '\0'; mystr++)
 	{
-		for (j = 0; delim[j] != '\0'; j++)
+		for (n = 0; mydelim[n] != '\0'; n++)
 		{
-			if (*str == delim[j])
+			if (*mystr == mydelim[n])
 			break;
 		}
-		if (delim[j] == '\0')
+		if (mydelim[n] == '\0')
 			break;
 	}
-	copystr = str;
-	if (*copystr == '\0')
+	mystrcp = mystr;
+	if (*mystrcp == '\0')
 		return (NULL);
-	for (; *str != '\0'; str++)
+	for (; *mystr != '\0'; mystr++)
 	{
-		for (j = 0; delim[j] != '\0'; j++)
+		for (n = 0; mydelim[n] != '\0'; n++)
 		{
-			if (*str == delim[j])
+			if (*mystr == mydelim[n])
 			{
-				*str = '\0';
-				str++;
-				return (copystr);
+				*mystr = '\0';
+				mystr++;
+				return (mystrcp);
 			}
 		}
 	}
-	return (copystr);
+	return (mystrcp);
 }
