@@ -127,8 +127,35 @@ j -> n
 
 
 Mighty changes:
+Changes in SHELL.H
 free_array_of_pointers -> free_arr_of_ptrs
 free_recurrent_data -> freeing_recurrentData
 free_all_data -> freeing_allData
 builtin_exit -> exit_built
 builtin_cd -> cd_built
+set_work_directory -> set_workdir
+builtin_help -> help_built
+builtin_alias -> alias_built
+builtin_env -> environ_built
+builtin_set_env -> built_set_environ
+builtin_unset_env -> built_unset_environ
+env_get_key -> environ_key_get
+env_set_key -> environ_key_set
+env_remove_key -> environ_rmv_key
+print_environ -> prt_env
+_print -> prt
+_printe -> prte
+_print_error -> _print_err
+str_length -> string_len
+*str_duplicate -> string_dup
+str_compare -> string_cmp
+*str_concat -> str_concati_nate
+str_reverse -> string_rev
+long_to_string -> lng_to_str
+_atoi -> _tiao
+count_characters -> count_chars
+print_alias -> alias_prt
+*get_alias -> alias_get
+set_alias -> alias_st
+
+Functions already changed where they appear
