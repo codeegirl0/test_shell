@@ -32,8 +32,8 @@ int main(int argc, char *argv[], char *env[])
  */
 void deal_with_ctrlc(int opr UNUSED)
 {
-	_print("\n");
-	_print(PROMPT_MSG);
+	_prt("\n");
+	_prt(PROMPT_MSG);
 }
 
 /**
@@ -58,10 +58,10 @@ void start_data(vars_of_project *data, int argc, char *argv[], char **env)
 		data->descr_file = open(argv[1], O_RDONLY);
 		if (data->descr_file == -1)
 		{
-			_printe(data->prog_name);
-			_printe(": 0: Can't open ");
-			_printe(argv[1]);
-			_printe("\n");
+			_prte(data->prog_name);
+			_prte(": 0: Can't open ");
+			_prte(argv[1]);
+			_prte("\n");
 			exit(127);
 		}
 	}
@@ -94,12 +94,12 @@ void promptshow(char *myprompt, vars_of_project *data)
 
 	while (++(data->counter_ex))
 	{
-		_print(myprompt);
+		_prt(myprompt);
 		code_err = len_str = _readline(data);
 
 		if (code_err == EOF)
 		{
-			free_all_data(data);
+			freeing_allData(data);
 			exit(errno); 
 		}
 		if (len_str >= 1)
@@ -113,7 +113,7 @@ void promptshow(char *myprompt, vars_of_project *data)
 				if (code_err != 0)
 					_print_error(code_err, data);
 			}
-			free_recurrent_data(data);
+			freeing_recurrentData(data);
 		}
 	}
 }
