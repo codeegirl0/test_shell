@@ -125,6 +125,22 @@ length -> leng
 i -> m
 j -> n
 
+HELPERSNUMBERS.C
+index -> idx
+cociente -> coct
+inNegative -> isNeg
+sign -> sig
+counter -> count
+
+HELPER_PRINT.C
+n_as_string -> n_like_str
+
+HELPERSTRING.C
+length -> leng
+i -> m
+iterator -> iterat
+all macros messages changed
+
 
 Mighty changes:
 Changes in SHELL.H

@@ -1,20 +1,19 @@
 #include "shell.h"
 
 /**
- * _prt - writes a array of chars in the standar output
- * @string: pointer to the array of chars
- * Return: the number of bytes writed or .
- * On error, -1 is returned, and errno is set appropriately.
+ * _prt - write many chars in output
+ * @string: pointer of chars
+ * Return: writed bytes -1 in error, errno setted approp.
  */
 int _prt(char *string)
 {
 	return (write(STDOUT_FILENO, string, string_len(string)));
 }
 /**
- * _prte - writes a array of chars in the standar error
- * @string: pointer to the array of chars
- * Return: the number of bytes writed or .
- * On error, -1 is returned, and errno is set appropriately.
+ * _prte - write chars in error 
+ * @string: pointer of chars
+ * Return: writed number of bytes.
+ * if error -1 , errno setted.
  */
 int _prte(char *string)
 {
@@ -22,48 +21,47 @@ int _prte(char *string)
 }
 
 /**
- * _print_err - writes a array of chars in the standart error
- * @data: a pointer to the program's data'
- * @errorcode: error code to print
- * Return: the number of bytes writed or .
- * On error, -1 is returned, and errno is set appropriately.
+ * _print_err - write chars in error
+ * @data: program data struct
+ * @errorcode: the error code
+ * Return: writed bytes or -1 and errno.
  */
-int _print_err(int errorcode, data_of_program *data)
+int _print_err(int errorcode, vars_of_project *data)
 {
-	char n_as_string[10] = {'\0'};
+	char n_like_str[10] = {'\0'};
 
-	lng_to_str((long) data->exec_counter, n_as_string, 10);
+	lng_to_str((long) data->counter_ex, n_like_str, 10);
 
 	if (errorcode == 2 || errorcode == 3)
 	{
-		_prte(data->program_name);
+		_prte(data->prog_name);
 		_prte(": ");
-		_prte(n_as_string);
+		_prte(n_like_str);
 		_prte(": ");
-		_prte(data->tokens[0]);
+		_prte(data->toks[0]);
 		if (errorcode == 2)
 			_prte(": Illegal number: ");
 		else
-			_prte(": can't cd to ");
-		_prte(data->tokens[1]);
+			_prte(": can't do cd to ");
+		_prte(data->toks[1]);
 		_prte("\n");
 	}
 	else if (errorcode == 127)
 	{
-		_prte(data->program_name);
+		_prte(data->prog_name);
 		_prte(": ");
-		_prte(n_as_string);
+		_prte(n_like_str);
 		_prte(": ");
-		_prte(data->command_name);
+		_prte(data->cmd_name);
 		_prte(": not found\n");
 	}
 	else if (errorcode == 126)
 	{
-		_prte(data->program_name);
+		_prte(data->prog_name);
 		_prte(": ");
-		_prte(n_as_string);
+		_prte(n_like_str);
 		_prte(": ");
-		_prte(data->command_name);
+		_prte(data->cmd_name);
 		_prte(": Permission denied\n");
 	}
 	return (0);

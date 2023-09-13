@@ -1,86 +1,80 @@
 #include "shell.h"
 
 /**
- * lng_to_str - converts a number to a string.
- * @number: number to be converten in an string.
- * @string: buffer to save the number as string.
- * @base: base to convert number
- *
- * Return: Nothing.
+ * lng_to_str - make a number as a string.
+ * @number: number to be convert.
+ * @string: to save a number as a string.
+ * @base: base for converting
+ * Return: nothing.
  */
 void lng_to_str(long number, char *string, int base)
 {
-	int index = 0, inNegative = 0;
-	long cociente = number;
+	int idx = 0, isNeg = 0;
+	long coct = number;
 	char letters[] = {"0123456789abcdef"};
 
-	if (cociente == 0)
-		string[index++] = '0';
+	if (coct == 0)
+		string[idx++] = '0';
 
 	if (string[0] == '-')
-		inNegative = 1;
+		isNeg = 1;
 
-	while (cociente)
+	while (coct)
 	{
-		if (cociente < 0)
-			string[index++] = letters[-(cociente % base)];
+		if (coct < 0)
+			string[idx++] = letters[-(coct % base)];
 		else
-			string[index++] = letters[cociente % base];
-		cociente /= base;
+			string[idx++] = letters[coct % base];
+		coct /= base;
 	}
-	if (inNegative)
-		string[index++] = '-';
+	if (isNeg)
+		string[idx++] = '-';
 
-	string[index] = '\0';
+	string[idx] = '\0';
 	string_rev(string);
 }
 
 
 /**
- * _tiao - convert a string to an integer.
- *
- * @s: pointer to str origen.
- * Return: int of string or 0.
+ * _tiao - make string as integer.
+ * @s: a pointer to str.
+ * Return: 0 or int.
  */
 int _tiao(char *s)
 {
-	int sign = 1;
+	int sig = 1;
 	unsigned int number = 0;
-	/*1- analisys sign*/
 	while (!('0' <= *s && *s <= '9') && *s != '\0')
 	{
 		if (*s == '-')
-			sign *= -1;
+			sig *= -1;
 		if (*s == '+')
-			sign *= +1;
+			sig *= +1;
 		s++;
 	}
 
-	/*2 - extract the number */
 	while ('0' <= *s && *s <= '9' && *s != '\0')
 	{
-
 		number = (number * 10) + (*s - '0');
 		s++;
 	}
-	return (number * sign);
+	return (number * sig);
 }
 
 /**
- * count_chars - count the coincidences of character in string.
- *
- * @string: pointer to str origen.
- * @character: string with  chars to be counted
- * Return: int of string or 0.
+ * count_chars - to count character in string.
+ * @string: a pointer to str .
+ * @character: chars string to count
+ * Return: 0 or int.
  */
 int count_chars(char *string, char *character)
 {
-	int i = 0, counter = 0;
+	int m = 0, count = 0;
 
-	for (; string[i]; i++)
+	for (; string[m]; m++)
 	{
-		if (string[i] == character[0])
-			counter++;
+		if (string[m] == character[0])
+			count++;
 	}
-	return (counter);
+	return (count);
 }
