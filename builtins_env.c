@@ -1,37 +1,37 @@
 #include "shell.h"
 
 /**
- * builtin_env - to show env
+ * environ_built - to show env
  * @data: program data struct
  * Return: 0 if sucess, or other number
  */
-int builtin_env(vars_of_project *data)
+int environ_built(vars_of_project *data)
 {
 	int m;
 	char namecp[50] = {'\0'};
 	char *cp_var = NULL;
 
 	if (data->toks[1] == NULL)
-		print_environ(data);
+		prt_env(data);
 	else
 	{
 		for (m = 0; data->toks[1][m]; m++)
 		{
 			if (data->toks[1][m] == '=')
 			{
-				cp_var = str_duplicate(env_get_key(namecp, data));
+				cp_var = string_dup(environ_key_get(namecp, data));
 				if (cp_var != NULL)
-					env_set_key(namecp, data->toks[1] + m + 1, data);
+					environ_key_set(namecp, data->toks[1] + m + 1, data);
 
 				print_environ(data);
-				if (env_get_key(namecp, data) == NULL)
+				if (environ_key_get(namecp, data) == NULL)
 				{
-					_print(data->toks[1]);
-					_print("\n");
+					_prt(data->toks[1]);
+					_prt("\n");
 				}
 				else
 				{
-					env_set_key(namecp, cp_var, data);
+					environ_key_set(namecp, cp_var, data);
 					free(cp_var);
 				}
 				return (0);
@@ -46,11 +46,11 @@ int builtin_env(vars_of_project *data)
 }
 
 /**
- * builtin_set_env - to set env
+ * built_set_environ - to set env
  * @data: program data struct
  * Return: 0 if sucess, or other number
  */
-int builtin_set_env(vars_of_project *data)
+int builtin_set_environ(vars_of_project *data)
 {
 	if (data->toks[1] == NULL || data->toks[2] == NULL)
 		return (0);
@@ -61,17 +61,17 @@ int builtin_set_env(vars_of_project *data)
 		return (5);
 	}
 
-	env_set_key(data->toks[1], data->toks[2], data);
+	environ_key_set(data->toks[1], data->toks[2], data);
 
 	return (0);
 }
 
 /**
- * builtin_unset_env - to unset env
+ * built_unset_environ - to unset env
  * @data: program data struct
  * Return: 0 if success
  */
-int builtin_unset_env(vars_of_project *data)
+int built_unset_environ(vars_of_project *data)
 {
 	if (data->toks[1] == NULL)
 		return (0);
@@ -81,7 +81,7 @@ int builtin_unset_env(vars_of_project *data)
 		perror(data->cmd_name);
 		return (5);
 	}
-	env_remove_key(data->toks[1], data);
+	environ_rmv_key(data->toks[1], data);
 
 	return (0);
 }
