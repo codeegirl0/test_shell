@@ -125,13 +125,13 @@ char **path_tokenizing(vars_of_project *data);
 /*======== helpers_free.c ========*/
 
 /* Frees the memory for directories */
-void free_array_of_pointers(char **directories);
+void free_arr_of_ptrs(char **directories);
 
 /* Free the fields needed each loop */
-void free_recurrent_data(vars_of_project *data);
+void freeing_recurrentData(vars_of_project *data);
 
 /* Free all field of the data */
-void free_all_data(vars_of_project *data);
+void freeing_allData(vars_of_project *data);
 
 
 /************** BUILTINS **************/
@@ -140,31 +140,31 @@ void free_all_data(vars_of_project *data);
 /*======== builtins_more.c ========*/
 
 /* Close the shell */
-int builtin_exit(vars_of_project *data);
+int exit_built(vars_of_project *data);
 
 /* Change the current directory */
-int builtin_cd(vars_of_project *data);
+int cd_built(vars_of_project *data);
 
 /* set the work directory */
-int set_work_directory(vars_of_project *data, char *new_dir);
+int set_work_dir(vars_of_project *data, char *new_dir);
 
 /* show help information */
-int builtin_help(vars_of_project *data);
+int help_built(vars_of_project *data);
 
 /* set, unset and show alias */
-int builtin_alias(vars_of_project *data);
+int alias_built(vars_of_project *data);
 
 
 /*======== builtins_env.c ========*/
 
 /* Shows the environment where the shell runs */
-int builtin_env(vars_of_project *data);
+int env_built(vars_of_project *data);
 
 /* create or override a variable of environment */
-int builtin_set_env(vars_of_project *data);
+int built_set_environ(vars_of_project *data);
 
 /* delete a variable of environment */
-int builtin_unset_env(vars_of_project *data);
+int built_unset_environ(vars_of_project *data);
 
 
 /************** HELPERS FOR ENVIRONMENT VARIABLES MANAGEMENT **************/
@@ -173,16 +173,16 @@ int builtin_unset_env(vars_of_project *data);
 /*======== env_management.c ========*/
 
 /* Gets the value of an environment variable */
-char *env_get_key(char *name, vars_of_project *data);
+char *environ_get_key(char *name, vars_of_project *data);
 
 /* Overwrite the value of the environment variable */
-int env_set_key(char *key, char *value, vars_of_project *data);
+int environ_set_key(char *key, char *value, vars_of_project *data);
 
 /* Remove a key from the environment */
-int env_remove_key(char *key, vars_of_project *data);
+int environ_rmv_key(char *key, vars_of_project *data);
 
 /* prints the current environ */
-void print_environ(vars_of_project *data);
+void print_env(vars_of_project *data);
 
 
 /************** HELPERS FOR PRINTING **************/
@@ -191,13 +191,13 @@ void print_environ(vars_of_project *data);
 /*======== helpers_print.c ========*/
 
 /* Prints a string in the standar output */
-int _print(char *string);
+int _prt(char *string);
 
 /* Prints a string in the standar error */
-int _printe(char *string);
+int _prte(char *string);
 
 /* Prints a string in the standar error */
-int _print_error(int errorcode, vars_of_project *data);
+int _print_err(int errorcode, vars_of_project *data);
 
 
 /************** HELPERS FOR STRINGS MANAGEMENT **************/
@@ -206,43 +206,43 @@ int _print_error(int errorcode, vars_of_project *data);
 /*======== helpers_string.c ========*/
 
 /* Counts the number of characters of a string */
-int str_length(char *string);
+int string_len(char *string);
 
 /* Duplicates an string */
-char *str_duplicate(char *string);
+char *string_dup(char *string);
 
 /* Compares two strings */
-int str_compare(char *string1, char *string2, int number);
+int string_cmp(char *string1, char *string2, int number);
 
 /* Concatenates two strings */
-char *str_concat(char *string1, char *string2);
+char *string_concati_nate(char *string1, char *string2);
 
 /* Reverse a string */
-void str_reverse(char *string);
+void string_rev(char *string);
 
 
 /*======== helpers_numbers.c ========*/
 
 /* Cast from int to string */
-void long_to_string(long number, char *string, int base);
+void lng_to_str(long number, char *string, int base);
 
 /* convert an string in to a number */
-int _atoi(char *s);
+int _tiao(char *s);
 
 /* count the coincidences of character in string */
-int count_characters(char *string, char *character);
+int count_chars(char *string, char *character);
 
 
 /*======== alias_management.c ========*/
 
 /* print the list of alias */
-int print_alias(vars_of_project *data, char *alias);
+int alias_print(vars_of_project *data, char *alias);
 
 /* get the alias name */
-char *get_alias(vars_of_project *data, char *alias);
+char *alias_get(vars_of_project *data, char *alias);
 
 /* set the alias name */
-int set_alias(char *alias_string, vars_of_project *data);
+int alias_set(char *alias_string, vars_of_project *data);
 
 
 #endif /* SHELL_H */
