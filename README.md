@@ -127,3 +127,8 @@ j -> n
 
 
 Mighty changes:
+free_array_of_pointers -> free_arr_of_ptrs
+free_recurrent_data -> freeing_recurrentData
+free_all_data -> freeing_allData
+builtin_exit -> exit_built
+builtin_cd -> cd_built
