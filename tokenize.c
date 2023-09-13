@@ -10,7 +10,7 @@ void tokenizing(vars_of_project *data)
 	char *delimit = " \t";
 	int m, n, count = 2, leng;
 
-	leng = str_length(data->line_inpt);
+	leng = string_len(data->line_inpt);
 	if (leng)
 	{
 		if (data->line_inpt[leng - 1] == '\n')
@@ -33,10 +33,10 @@ void tokenizing(vars_of_project *data)
 		exit(errno);
 	}
 	m = 0;
-	data->toks[m] = str_duplicate(_stringtok(data->line_inpt, delimit));
-	data->cmd_name = str_duplicate(data->toks[0]);
+	data->toks[m] = string_dup(_stringtok(data->line_inpt, delimit));
+	data->cmd_name = string_dup(data->toks[0]);
 	while (data->toks[m++])
 	{
-		data->toks[m] = str_duplicate(_stringtok(NULL, delimit));
+		data->toks[m] = string_dup(_stringtok(NULL, delimit));
 	}
 }
