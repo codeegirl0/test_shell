@@ -1,22 +1,22 @@
 #include "shell.h"
 
 /**
- * print_alias - handle aliases
+ * alias_prt - handle aliases
  * @data: program data struct
  * @alias:  alias to print
  * Return: 0 if sucess, or other number
  */
-int print_alias(vars_of_project *data, char *alias)
+int alias_prt(vars_of_project *data, char *alias)
 {
 	int m, n, len_aliases;
 	char buffer[250] = {'\0'};
 
 	if (data->ls_alias)
 	{
-		len_aliases = str_length(alias);
+		len_aliases = string_len(alias);
 		for (m = 0; data->ls_alias[m]; m++)
 		{
-			if (!alias || (str_compare(data->ls_alias[m], alias, len_aliases)
+			if (!alias || (string_cmp(data->ls_alias[m], alias, len_aliases)
 						&&	data->ls_alias[m][len_aliases] == '='))
 			{
 				for (n = 0; data->ls_alias[m][n]; n++)
@@ -38,23 +38,23 @@ int print_alias(vars_of_project *data, char *alias)
 }
 
 /**
- * get_alias - handle aliases
+ * alias_get - handle aliases
  * @data: program data struct
  * @name: the requested alias.
  * Return: 0 if sucess, or other number
  */
-char *get_alias(vars_of_project *data, char *name)
+char *alias_get(vars_of_project *data, char *name)
 {
 	int m, len_aliases;
 
 	if (name == NULL || data->ls_alias == NULL)
 		return (NULL);
 
-	len_aliases = str_length(name);
+	len_aliases = string_len(name);
 
 	for (m = 0; data->ls_alias[m]; m++)
 	{
-		if (str_compare(name, data->ls_alias[m], len_aliases) &&
+		if (string_cmp(name, data->ls_alias[m], len_aliases) &&
 				data->ls_alias[m][len_aliases] == '=')
 		{
 			return (data->ls_alias[m] + len_aliases + 1);
@@ -65,12 +65,12 @@ char *get_alias(vars_of_project *data, char *name)
 }
 
 /**
- * set_alias - create and rewrite alias
+ * alias_st - create and rewrite alias
  * @alias_string: alias to set
  * @data: program data struct
  * Return: 0 if sucess, or other number 
  */
-int set_alias(char *alias_string, vars_of_project *data)
+int alias_st(char *alias_string, vars_of_project *data)
 {
 	int m, n;
 	char buffer[250] = {'0'}, *mytemp = NULL;
@@ -82,12 +82,12 @@ int set_alias(char *alias_string, vars_of_project *data)
 			buffer[m] = alias_string[m];
 		else
 		{
-			mytemp = get_alias(data, alias_string + m + 1);
+			mytemp = alias_get(data, alias_string + m + 1);
 			break;
 		}
 
 	for (j = 0; data->ls_alias[j]; j++)
-		if (str_compare(buffer, data->ls_alias[j], m) &&
+		if (string_cmp(buffer, data->ls_alias[j], m) &&
 				data->ls_alias[j][m] == '=')
 		{
 			free(data->ls_alias[j]);
@@ -98,9 +98,9 @@ int set_alias(char *alias_string, vars_of_project *data)
 	{
 		add_tobuff(buffer, "=");
 		add_tobuff(buffer, mytemp);
-		data->ls_alias[j] = str_duplicate(buffer);
+		data->ls_alias[j] = string_dup(buffer);
 	}
 	else
-		data->ls_alias[j] = str_duplicate(alias_string);
+		data->ls_alias[j] = string_dup(alias_string);
 	return (0);
 }
