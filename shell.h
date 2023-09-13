@@ -146,7 +146,7 @@ int exit_built(vars_of_project *data);
 int cd_built(vars_of_project *data);
 
 /* set the work directory */
-int set_work_dir(vars_of_project *data, char *new_dir);
+int set_workdir(vars_of_project *data, char *new_dir);
 
 /* show help information */
 int help_built(vars_of_project *data);
@@ -158,7 +158,7 @@ int alias_built(vars_of_project *data);
 /*======== builtins_env.c ========*/
 
 /* Shows the environment where the shell runs */
-int env_built(vars_of_project *data);
+int environ_built(vars_of_project *data);
 
 /* create or override a variable of environment */
 int built_set_environ(vars_of_project *data);
@@ -182,7 +182,7 @@ int environ_set_key(char *key, char *value, vars_of_project *data);
 int environ_rmv_key(char *key, vars_of_project *data);
 
 /* prints the current environ */
-void print_env(vars_of_project *data);
+void prt_env(vars_of_project *data);
 
 
 /************** HELPERS FOR PRINTING **************/
@@ -242,7 +242,7 @@ int alias_print(vars_of_project *data, char *alias);
 char *alias_get(vars_of_project *data, char *alias);
 
 /* set the alias name */
-int alias_set(char *alias_string, vars_of_project *data);
+int alias_st(char *alias_string, vars_of_project *data);
 
 
 #endif /* SHELL_H */
