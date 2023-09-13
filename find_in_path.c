@@ -19,7 +19,7 @@ int search_program(vars_of_project *data)
 		return (check_file(data->cmd_name));
 
 	free(data->toks[0]);
-	data->toks[0] = str_concat(str_duplicate("/"), data->cmd_name);
+	data->toks[0] = str_concati_nate(string_dup("/"), data->cmd_name);
 	if (!data->toks[0])
 		return (2);
 
@@ -32,20 +32,20 @@ int search_program(vars_of_project *data)
 	}
 	for (m = 0; directs[m]; m++)
 	{
-		directs[m] = str_concat(directs[m], data->toks[0]);
+		directs[m] = str_concati_nate(directs[m], data->toks[0]);
 		code_toret = check_file(directs[m]);
 		if (code_toret == 0 || code_toret == 126)
 		{
 			errno = 0;
 			free(data->toks[0]);
-			data->toks[0] = str_duplicate(directs[m]);
-			free_array_of_pointers(directs);
+			data->toks[0] = string_dup(directs[m]);
+			free_arr_of_ptrs(directs);
 			return (code_toret);
 		}
 	}
 	free(data->toks[0]);
 	data->toks[0] = NULL;
-	free_array_of_pointers(directs);
+	free_arr_of_ptrs(directs);
 	return (code_toret);
 }
 
@@ -61,13 +61,13 @@ char **path_tokenizing(vars_of_project *data)
 	char **toks = NULL;
 	char *PATH;
 
-	PATH = env_get_key("PATH", data);
+	PATH = environ_key_get("PATH", data);
 	if ((PATH == NULL) || PATH[0] == '\0')
 	{
 		return (NULL);
 	}
 
-	PATH = str_duplicate(PATH);
+	PATH = string_dup(PATH);
 
 	for (m = 0; PATH[m]; m++)
 	{
@@ -78,10 +78,10 @@ char **path_tokenizing(vars_of_project *data)
 	toks = malloc(sizeof(char *) * direct_counter);
 
 	m = 0;
-	toks[m] = str_duplicate(_stringtok(PATH, ":"));
+	toks[m] = string_dup(_stringtok(PATH, ":"));
 	while (toks[m++])
 	{
-		toks[m] = str_duplicate(_stringtok(NULL, ":"));
+		toks[m] = string_dup(_stringtok(NULL, ":"));
 	}
 
 	free(PATH);
