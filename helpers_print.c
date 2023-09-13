@@ -1,70 +1,70 @@
 #include "shell.h"
 
 /**
- * _print - writes a array of chars in the standar output
+ * _prt - writes a array of chars in the standar output
  * @string: pointer to the array of chars
  * Return: the number of bytes writed or .
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _print(char *string)
+int _prt(char *string)
 {
-	return (write(STDOUT_FILENO, string, str_length(string)));
+	return (write(STDOUT_FILENO, string, string_len(string)));
 }
 /**
- * _printe - writes a array of chars in the standar error
+ * _prte - writes a array of chars in the standar error
  * @string: pointer to the array of chars
  * Return: the number of bytes writed or .
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _printe(char *string)
+int _prte(char *string)
 {
-	return (write(STDERR_FILENO, string, str_length(string)));
+	return (write(STDERR_FILENO, string, string_len(string)));
 }
 
 /**
- * _print_error - writes a array of chars in the standart error
+ * _print_err - writes a array of chars in the standart error
  * @data: a pointer to the program's data'
  * @errorcode: error code to print
  * Return: the number of bytes writed or .
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _print_error(int errorcode, data_of_program *data)
+int _print_err(int errorcode, data_of_program *data)
 {
 	char n_as_string[10] = {'\0'};
 
-	long_to_string((long) data->exec_counter, n_as_string, 10);
+	lng_to_str((long) data->exec_counter, n_as_string, 10);
 
 	if (errorcode == 2 || errorcode == 3)
 	{
-		_printe(data->program_name);
-		_printe(": ");
-		_printe(n_as_string);
-		_printe(": ");
-		_printe(data->tokens[0]);
+		_prte(data->program_name);
+		_prte(": ");
+		_prte(n_as_string);
+		_prte(": ");
+		_prte(data->tokens[0]);
 		if (errorcode == 2)
-			_printe(": Illegal number: ");
+			_prte(": Illegal number: ");
 		else
-			_printe(": can't cd to ");
-		_printe(data->tokens[1]);
-		_printe("\n");
+			_prte(": can't cd to ");
+		_prte(data->tokens[1]);
+		_prte("\n");
 	}
 	else if (errorcode == 127)
 	{
-		_printe(data->program_name);
-		_printe(": ");
-		_printe(n_as_string);
-		_printe(": ");
-		_printe(data->command_name);
-		_printe(": not found\n");
+		_prte(data->program_name);
+		_prte(": ");
+		_prte(n_as_string);
+		_prte(": ");
+		_prte(data->command_name);
+		_prte(": not found\n");
 	}
 	else if (errorcode == 126)
 	{
-		_printe(data->program_name);
-		_printe(": ");
-		_printe(n_as_string);
-		_printe(": ");
-		_printe(data->command_name);
-		_printe(": Permission denied\n");
+		_prte(data->program_name);
+		_prte(": ");
+		_prte(n_as_string);
+		_prte(": ");
+		_prte(data->command_name);
+		_prte(": Permission denied\n");
 	}
 	return (0);
 }
