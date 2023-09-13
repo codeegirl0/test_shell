@@ -24,7 +24,7 @@ int _readline(vars_of_project *data)
 			return (-1);
 		i = 0;
 		do {
-			arr_cmds[i] = str_duplicate(_stringtok(i ? NULL : buffsize, "\n;"));
+			arr_cmds[i] = string_dup(_stringtok(i ? NULL : buffsize, "\n;"));
 			i = logic_ops_spliter(arr_cmds, i, arr_opr);
 		} while (arr_cmds[i++]);
 	}
@@ -35,7 +35,7 @@ int _readline(vars_of_project *data)
 		arr_opr[i] = arr_opr[i + 1];
 	}
 
-	return (str_length(data->line_inpt));
+	return (string_len(data->line_inpt));
 }
 
 
@@ -56,8 +56,8 @@ int logic_ops_spliter(char *arr_cmds[], int i, char arr_opr[])
 		{
 			mytemp = arr_cmds[i];
 			arr_cmds[i][n] = '\0';
-			arr_cmds[i] = str_duplicate(arr_cmds[i]);
-			arr_cmds[i + 1] = str_duplicate(mytemp + n + 2);
+			arr_cmds[i] = string_dup(arr_cmds[i]);
+			arr_cmds[i + 1] = string_dup(mytemp + n + 2);
 			i++;
 			arr_opr[i] = '&';
 			free(mytemp);
@@ -67,8 +67,8 @@ int logic_ops_spliter(char *arr_cmds[], int i, char arr_opr[])
 		{
 			mytemp = arr_cmds[i];
 			arr_cmds[i][n] = '\0';
-			arr_cmds[i] = str_duplicate(arr_cmds[i]);
-			arr_cmds[i + 1] = str_duplicate(mytemp + n + 2);
+			arr_cmds[i] = string_dup(arr_cmds[i]);
+			arr_cmds[i + 1] = string_dup(mytemp + n + 2);
 			i++;
 			arr_opr[i] = '|';
 			free(mytemp);
