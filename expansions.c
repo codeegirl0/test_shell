@@ -19,14 +19,14 @@ void vars_expander(vars_of_project *data)
 		else if (theline[m] == '$' && theline[m + 1] == '?')
 		{
 			theline[m] = '\0';
-			long_to_string(errno, toexp, 10);
+			lng_to_str(errno, toexp, 10);
 			add_tobuff(theline, toexp);
 			add_tobuff(theline, data->line_inpt + m + 2);
 		}
 		else if (theline[m] == '$' && theline[m + 1] == '$')
 		{
 			theline[m] = '\0';
-			long_to_string(getpid(), toexp, 10);
+			lng_to_str(getpid(), toexp, 10);
 			add_tobuff(theline, toexp);
 			add_tobuff(theline, data->line_inpt + m + 2);
 		}
@@ -36,16 +36,16 @@ void vars_expander(vars_of_project *data)
 		{
 			for (n = 1; theline[m + n] && theline[m + n] != ' '; n++)
 				toexp[n - 1] = theline[m + n];
-			tempo = env_get_key(toexp, data);
+			tempo = environ_key_get(toexp, data);
 			theline[m] = '\0', toexp[0] = '\0';
 			add_tobuff(toexp, theline + m + n);
 			tempo ? add_tobuff(theline, tempo) : 1;
 			add_tobuff(theline, toexp);
 		}
-	if (!str_compare(data->line_inpt, theline, 0))
+	if (!string_cmp(data->line_inpt, theline, 0))
 	{
 		free(data->line_inpt);
-		data->line_inpt = str_duplicate(theline);
+		data->line_inpt = string_dup(theline);
 	}
 }
 
@@ -86,7 +86,7 @@ void alias_expander(vars_of_project *data)
 	if (the_expand)
 	{
 		free(data->line_inpt);
-		data->line_inpt = str_duplicate(theline);
+		data->line_inpt = string_dup(theline);
 	}
 }
 
@@ -100,7 +100,7 @@ int add_tobuff(char *buffer, char *str_to_add)
 {
 	int leng, m;
 
-	leng = str_leng(buffer);
+	leng = string_len(buffer);
 	for (m = 0; str_to_add[m]; m++)
 	{
 		buffer[leng + m] = str_to_add[m];
