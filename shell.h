@@ -172,10 +172,10 @@ int built_unset_environ(vars_of_project *data);
 /*======== env_management.c ========*/
 
 /* Get environment variable value */
-char *environ_get_key(char *name, vars_of_project *data);
+char *environ_key_get(char *name, vars_of_project *data);
 
 /* handle environment variable values */
-int environ_set_key(char *key, char *value, vars_of_project *data);
+int environ_key_set(char *key, char *value, vars_of_project *data);
 
 /* delete a key from  environ */
 int environ_rmv_key(char *key, vars_of_project *data);
