@@ -32,7 +32,7 @@ int search_program(vars_of_project *data)
 	}
 	for (m = 0; directs[m]; m++)
 	{
-		directs[m] = str_concati_nate(directs[m], data->toks[0]);
+		directs[m] = string_concati_nate(directs[m], data->toks[0]);
 		code_toret = check_file(directs[m]);
 		if (code_toret == 0 || code_toret == 126)
 		{
