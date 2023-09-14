@@ -9,7 +9,7 @@
 int builtins_list(vars_of_project *data)
 {
 	int iter;
-	builtins options[] = {
+	builts options[] = {
 		{"exit", exit_built},
 		{"help", help_built},
 		{"cd", cd_built},
@@ -20,9 +20,9 @@ int builtins_list(vars_of_project *data)
 		{NULL, NULL}
 	};
 
-	for (iter = 0; options[iter].builtin != NULL; iter++)
+	for (iter = 0; options[iter].built != NULL; iter++)
 	{
-		if (string_cmp(options[iter].builtin, data->cmd_name, 0))
+		if (string_cmp(options[iter].built, data->cmd_name, 0))
 		{
 			return (options[iter].function(data));
 		}

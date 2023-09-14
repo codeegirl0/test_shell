@@ -29,7 +29,7 @@ int alias_prt(vars_of_project *data, char *alias)
 				add_tobuff(buffer, "'");
 				add_tobuff(buffer, data->ls_alias[m] + n + 1);
 				add_tobuff(buffer, "'\n");
-				_print(buffer);
+				_prt(buffer);
 			}
 		}
 	}
@@ -72,7 +72,7 @@ char *alias_get(vars_of_project *data, char *name)
  */
 int alias_st(char *alias_string, vars_of_project *data)
 {
-	int m, n;
+	int m, j;
 	char buffer[250] = {'0'}, *mytemp = NULL;
 
 	if (alias_string == NULL ||  data->ls_alias == NULL)

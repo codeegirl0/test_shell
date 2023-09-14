@@ -71,7 +71,7 @@ void start_data(vars_of_project *data, int argc, char *argv[], char **env)
 	{
 		for (; env[i]; i++)
 		{
-			data->envir[i] = str_duplicate(env[i]);
+			data->envir[i] = string_dup(env[i]);
 		}
 	}
 	data->envir[i] = NULL;
@@ -111,7 +111,7 @@ void promptshow(char *myprompt, vars_of_project *data)
 			{ 
 				code_err = executer(data);
 				if (code_err != 0)
-					_print_error(code_err, data);
+					_print_err(code_err, data);
 			}
 			freeing_recurrentData(data);
 		}

@@ -141,6 +141,23 @@ i -> m
 iterator -> iterat
 all macros messages changed
 
+FILE NAMES:
+alias_management manage_alias.c
+builtins_list.c list_built.c
+builtins_more.c more_built.c
+env_management.c manage_env.c
+execute.c executer.c
+expansions.c toexpans.c
+find_in_path.c search_in_path
+_getline.c _readline.c
+helpers_free.c free_help.c
+helpers_numbers.c number_help.c
+helpers_print.c print_help.c
+helpers_string.c str_help.c
+shell.c myshell.c
+str_tok.c tokenize_str.c
+tokenize.c tokens.c
+
 
 Mighty changes:
 Changes in SHELL.H

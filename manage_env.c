@@ -53,8 +53,8 @@ int environ_key_set(char *key, char *value, vars_of_project *data)
 			break;
 		}
 	}
-	data->envir[m] = str_concati_nate(string_dup(key), "=");
-	data->envir[m] = str_concati_nate(data->envir[m], value);
+	data->envir[m] = string_concati_nate(string_dup(key), "=");
+	data->envir[m] = string_concati_nate(data->envir[m], value);
 
 	if (the_new_key)
 	{

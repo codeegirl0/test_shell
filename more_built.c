@@ -142,14 +142,14 @@ int alias_built(vars_of_project *data)
 	int m = 0;
 
 	if (data->toks[1] == NULL)
-		return (alias_prt(data, NULL));
+		return (alias_st(data, NULL));
 
 	while (data->toks[++m])
 	{
 		if (count_chars(data->toks[m], "="))
-			alias_st(data->toks[m], data);
+			alias_print(data->toks[m], data);
 		else
-			alias_prt(data, data->toks[m]);
+			alias_print(data, data->toks[m]);
 	}
 
 	return (0);

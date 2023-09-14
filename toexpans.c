@@ -70,14 +70,14 @@ void alias_expander(vars_of_project *data)
 			toexp[n] = theline[m + n];
 		toexp[n] = '\0';
 
-		tempo = get_alias(data, toexp);
+		tempo = alias_get(data, toexp);
 		if (tempo)
 		{
 			toexp[0] = '\0';
 			add_tobuff(toexp, theline + m + n);
 			theline[m] = '\0';
 			add_tobuff(theline, tempo);
-			theline[str_length(theline)] = '\0';
+			theline[string_len(theline)] = '\0';
 			add_tobuff(theline, toexp);
 			the_expand = 1;
 		}

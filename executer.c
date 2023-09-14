@@ -9,11 +9,11 @@ int executer(vars_of_project *data)
 	int valret = 0, stat;
 	pid_t pidd;
 
-	valret = builtins_list(data);
+	valret = list_builts(data);
 	if (valret != -1)
 		return (valret);
 
-	valret = find_program(data);
+	valret = search_program(data);
 	if (valret)
 	{
 		return (valret);
@@ -28,7 +28,7 @@ int executer(vars_of_project *data)
 		}
 		if (pidd == 0)
 		{
-			valret = execve(data->toks[0], data->toks, data->env);
+			valret = execve(data->toks[0], data->toks, data->envir);
 			if (valret == -1) 
 				perror(data->cmd_name), exit(EXIT_FAILURE);
 		}

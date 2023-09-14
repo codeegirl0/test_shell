@@ -23,7 +23,7 @@ int environ_built(vars_of_project *data)
 				if (cp_var != NULL)
 					environ_key_set(namecp, data->toks[1] + m + 1, data);
 
-				print_environ(data);
+				prt_env(data);
 				if (environ_key_get(namecp, data) == NULL)
 				{
 					_prt(data->toks[1]);
