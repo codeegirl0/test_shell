@@ -6,7 +6,7 @@
  * @alias:  alias to print
  * Return: 0 if sucess, or other number
  */
-int alias_prt(vars_of_project *data, char *alias)
+int alias_print(vars_of_project *data, char *alias)
 {
 	int m, n, len_aliases;
 	char buffer[250] = {'\0'};

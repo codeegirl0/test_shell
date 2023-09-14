@@ -50,7 +50,7 @@ int environ_built(vars_of_project *data)
  * @data: program data struct
  * Return: 0 if sucess, or other number
  */
-int builtin_set_environ(vars_of_project *data)
+int built_set_environ(vars_of_project *data)
 {
 	if (data->toks[1] == NULL || data->toks[2] == NULL)
 		return (0);

@@ -94,7 +94,7 @@ int string_cmp(char *string1, char *string2, int number)
  * @string2: String to concatenat
  * Return: array pointer
  */
-char *str_concati_nate(char *string1, char *string2)
+char *string_concati_nate(char *string1, char *string2)
 {
 	char *result;
 	int leng1 = 0, leng2 = 0;
