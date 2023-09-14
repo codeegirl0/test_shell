@@ -19,7 +19,7 @@ int search_program(vars_of_project *data)
 		return (check_file(data->cmd_name));
 
 	free(data->toks[0]);
-	data->toks[0] = str_concati_nate(string_dup("/"), data->cmd_name);
+	data->toks[0] = string_concati_nate(string_dup("/"), data->cmd_name);
 	if (!data->toks[0])
 		return (2);
 
