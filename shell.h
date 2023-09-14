@@ -214,7 +214,7 @@ char *string_dup(char *string);
 int string_cmp(char *string1, char *string2, int number);
 
 /* Concatenates strings */
-char *str_concati_nate(char *string1, char *string2);
+char *string_concati_nate(char *string1, char *string2);
 
 /* Reverse a string */
 void string_rev(char *string);
