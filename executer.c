@@ -1,9 +1,11 @@
 #include "shell.h"
+
 /**
  * executer - to execute a command with path.
  * @data: prgram data struct
  * Return: zero or return -1.
  */
+
 int executer(vars_of_project *data)
 {
 	int valret = 0, stat;
