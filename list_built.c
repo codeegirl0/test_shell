@@ -6,7 +6,7 @@
  * Return: Return match of executed function ,
  * or -1.
  **/
-int builtins_list(vars_of_project *data)
+int list_builts(vars_of_project *data)
 {
 	int iter;
 	builts options[] = {
