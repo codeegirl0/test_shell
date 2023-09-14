@@ -15,9 +15,9 @@
 
 /************* MACROS **************/
 
-#include "macros.h" /* messages and prompt */
+#include "messages.h" /* messages and prompt */
 
-/************* STRUCTURES **************/
+/************* All STRUCTURES **************/
 
 /**
  * struct info - for the program's data
@@ -57,7 +57,7 @@ typedef struct builts
 /************* FOR MAIN *************/
 
 
-/*========  shell.c  ========*/
+/*========  myshell.c  ========*/
 
 /* to initialize program data*/
 void start_data(vars_of_project *data, int arc, char *argv[], char **env);
@@ -68,7 +68,7 @@ void deal_with_ctrlc(int opr UNUSED);
 /* Show prompt with a loop*/
 void promptshow(char *myprompt, vars_of_project *data);
 
-/*========  _getline.c  ========*/
+/*========  _readline.c  ========*/
 
 /* Read one input line */
 int _readline(vars_of_project *data);
@@ -77,7 +77,7 @@ int _readline(vars_of_project *data);
 int logic_ops_spliter(char *arr_cmds[], int i, char arr_opr[]);
 
 
-/*======== expansions.c ========*/
+/*======== toexpans.c ========*/
 
 /* variables expanding */
 void vars_expander(vars_of_project *data);
@@ -89,7 +89,7 @@ void alias_expander(vars_of_project *data);
 int add_tobuff(char *mybuffer, char *add_the_str);
 
 
-/*======== str_tok.c ========*/
+/*======== tokenize_str.c ========*/
 
 /* to create a pointer to a string */
 char *_stringtok(char *myline, char *mydelim);
@@ -99,19 +99,19 @@ void tokenizing(vars_of_project *data);
 
 
 
-/*======== execute.c ========*/
+/*======== executer.c ========*/
 
 /* execute command with path*/
 int executer(vars_of_project *data);
 
 
-/*======== builtins_list.c ========*/
+/*======== list_built.c ========*/
 
 /* execute if it matches*/
 int list_builts(vars_of_project *data);
 
 
-/*======== find_in_path.c ========*/
+/*======== search_in_path.c ========*/
 
 /* to search in paths*/
 int search_program(vars_of_project *data);
@@ -120,9 +120,9 @@ int search_program(vars_of_project *data);
 char **path_tokenizing(vars_of_project *data);
 
 
-/************** HELPERS FOR MEMORY MANAGEMENT **************/
+/************** HELPERS **************/
 
-/*======== helpers_free.c ========*/
+/*======== free_help.c ========*/
 
 /* to free directory memory */
 void free_arr_of_ptrs(char **directories);
@@ -134,10 +134,10 @@ void freeing_recurrentData(vars_of_project *data);
 void freeing_allData(vars_of_project *data);
 
 
-/************** BUILTINS **************/
+/************** ALL BUILTINS **************/
 
 
-/*======== builtins_more.c ========*/
+/*======== more_built.c ========*/
 
 /* exit the shell */
 int exit_built(vars_of_project *data);
@@ -155,7 +155,7 @@ int help_built(vars_of_project *data);
 int alias_built(vars_of_project *data);
 
 
-/*======== builtins_env.c ========*/
+/*======== env_built.c ========*/
 
 /* show environment of running shell */
 int environ_built(vars_of_project *data);
@@ -167,9 +167,9 @@ int built_set_environ(vars_of_project *data);
 int built_unset_environ(vars_of_project *data);
 
 
-/************** HELPERS FOR ENVIRONMENT VARIABLES MANAGEMENT **************/
+/************** HELPERS FOR ENVIRONMENT VARIABLES **************/
 
-/*======== env_management.c ========*/
+/*======== manage_env.c ========*/
 
 /* Get environment variable value */
 char *environ_key_get(char *name, vars_of_project *data);
@@ -184,10 +184,10 @@ int environ_rmv_key(char *key, vars_of_project *data);
 void prt_env(vars_of_project *data);
 
 
-/************** HELPERS FOR PRINTING **************/
+/************** HELPERS FOR PRINT **************/
 
 
-/*======== helpers_print.c ========*/
+/*======== print_help.c ========*/
 
 /* to print a string in output */
 int _prt(char *string);
@@ -202,7 +202,7 @@ int _print_err(int errorcode, vars_of_project *data);
 /************** HELPERS FOR STRINGS MANAGEMENT **************/
 
 
-/*======== helpers_string.c ========*/
+/*======== str_help.c ========*/
 
 /* counting characters of a string */
 int string_len(char *string);
@@ -220,7 +220,7 @@ char *string_concati_nate(char *string1, char *string2);
 void string_rev(char *string);
 
 
-/*======== helpers_numbers.c ========*/
+/*======== number_help.c ========*/
 
 /* convert from num to string */
 void lng_to_str(long number, char *string, int base);
@@ -232,7 +232,7 @@ int _tiao(char *s);
 int count_chars(char *string, char *character);
 
 
-/*======== alias_management.c ========*/
+/*======== manage_alias.c ========*/
 
 /* print alias list*/
 int alias_print(vars_of_project *data, char *alias);
