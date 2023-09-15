@@ -2,7 +2,7 @@
 #define HELPERS_H
 
 /* message */
-#define PROMPT_MSG "this is a message" 
+#define PROMPT_MSG "MightyAsma$" 
 
 /* this is is a buffer for getline calls*/
 #define BUFFER_SIZE 1024
